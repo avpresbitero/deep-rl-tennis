@@ -24,7 +24,7 @@ def contract(sa):
 
 def retract(size, num_agents, id_agent, sa, debug=False):
     """
-    Decode a batch of Environment states or actions, which have been previously concatened to store 
+    Reads a batch of Environment states or actions, which have been previously concatened to store 
     multiple agent information into a buffer memmory originally not designed to handle multiple 
     agents information(such as in the context of MADDPG)
     
@@ -48,5 +48,5 @@ def retract(size, num_agents, id_agent, sa, debug=False):
     if (debug):
         print("\nDebug decode:\n size=",size, " num_agents=", num_agents, " id_agent=", id_agent, "\n")
         print("input:\n", sa,"\n output:\n",out,"\n\n\n")
-    return  out
+    return out
 
