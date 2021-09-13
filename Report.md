@@ -52,7 +52,7 @@ This project makes use of an *off-policy method* called **Multi Agent Deep Deter
 Deep Deterministic Policy Gradient (DDPG) is an algorithm which concurrently learns a Q-function and a policy. It uses off-policy data and the Bellman equation to learn the Q-function, and uses the Q-function to learn the policy.
 
 More details available on the Open AI's [Spinning Up](https://spinningup.openai.com/en/latest/algorithms/ddpg.html) website.
-![DDPG algorithm from Spinning Up website](./images/DDPG.svg)
+![DDPG algorithm from Spinning Up website](./images/DDPG.png)
 
 
 ### Multi Agent Deep Deterministic Policy Gradient (MADDPG)
@@ -156,5 +156,5 @@ See :[Twin Delayed DDPG (TD3)](https://spinningup.openai.com/en/latest/algorithm
 
 > Together, these three tricks result in substantially improved performance over the baseline DDPG
 
-![DDPG algorithm from Spinning Up website](./images/TD3.svg)
+![DDPG algorithm from Spinning Up website](./images/TD3.png)
 
