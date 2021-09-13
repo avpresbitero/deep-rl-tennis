@@ -27,7 +27,7 @@ class Actor(nn.Module):
         """
         super(Actor, self).__init__()
         self.seed = torch.manual_seed(seed)
-        self.nonlin = NON_LIN
+        self.nonlin = F.relu
         
         # Dense layers
         self.fc1 = nn.Linear(input_dim, fc1_units)
@@ -76,7 +76,7 @@ class Critic(nn.Module):
         """
         super(Critic, self).__init__()
         self.seed = torch.manual_seed(seed)
-        self.nonlin = NON_LIN
+        self.nonlin = F.relu
         
         # Dense layers 
         

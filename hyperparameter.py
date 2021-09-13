@@ -1,17 +1,16 @@
 import torch.nn.functional as F
                            
-SEED = 1226                          # Random seed
+SEED = 1226                        # Random seed
 
-NB_EPISODES = 10000                # Max nb of episodes
-NB_STEPS = 1000                    # Max nb of steps per episodes 
+EPISODES = 10000                   # Max number of episodes
+STEPS = 1000                       # Max number of steps per episodes 
 BUFFER_SIZE = int(1e6)             # replay buffer size
 BATCH_SIZE = 200                   # minibatch size
-UPDATE_EVERY_NB_EPISODE = 4        # Nb of episodes between learning process
-MULTIPLE_LEARN_PER_UPDATE = 3      # Nb of multiple learning process performed in a row
+UPDATE_EVERY_NB_EPISODE = 4        # Number of episodes between learning process
+MULTIPLE_LEARN_PER_UPDATE = 3      # Number of multiple learning process performed in a row
 EPSILON = 1.0                      # exploration actions space
 EPSILON_DECAY = 1e-6               # epsilon decay
 
-NON_LIN = F.relu                   # Non linearity operator used in the model
 LR_ACTOR = 1e-3                    # learning rate of the actor 
 LR_CRITIC = 1e-3                   # learning rate of the critic
 WEIGHT_DECAY = 0                   # L2 weight decay

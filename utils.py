@@ -1,17 +1,16 @@
 import numpy as np
 import torch
 
-# Helper functions to concatenate/extract multipe agents states/actions for use with the Replay Buffer memory.
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def encode(sa):
+def contract(sa):
     """
-    Encode an Environment state or action list of array, which contain multiple agents action/state information, 
+    Takes in environment state or action list of array, which contain multiple agents action/state information, 
     by concatenating their information, thus removing (but not loosing) the agent dimension in the final output. 
     
-    The ouput is a list intended to be inserted into a buffer memmory originally not designed to handle multiple 
+    Output is a list intended to be inserted into a buffer memmory originally not designed to handle multiple 
     agents information, such as in the context of MADDPG)
     
     Params
@@ -23,7 +22,7 @@ def encode(sa):
 
 
 
-def decode(size, num_agents, id_agent, sa, debug=False):
+def retract(size, num_agents, id_agent, sa, debug=False):
     """
     Decode a batch of Environment states or actions, which have been previously concatened to store 
     multiple agent information into a buffer memmory originally not designed to handle multiple 

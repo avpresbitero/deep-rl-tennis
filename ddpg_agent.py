@@ -49,7 +49,7 @@ class Agent():
             target.data.copy_(local.data)
 
         # Critic Network (w/ Target Network)
-        # Note : in MADDPG, critics have access to all agents obeservations and actions
+        # MADDPG: critics have access to all agents obeservations and actions
         self.critic_local = Critic(state_size*num_agents, action_size*num_agents, random_seed).to(device)
         self.critic_target = Critic(state_size*num_agents, action_size*num_agents, random_seed).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
@@ -61,7 +61,7 @@ class Agent():
         # Noise process
         self.noise = OUNoise(action_size, random_seed)
 
-        # Note : in MADDPG, the ReplayBuffer is common to all agents
+        # MADDPG: ReplayBuffer is common to all agents
         #self.replay = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
         
     

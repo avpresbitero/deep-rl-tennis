@@ -5,7 +5,7 @@ import torch
 
 from ddpg_agent import Agent
 from hyperparameter  import *
-from utils import encode, decode
+from utils import contract, retract
 from replay import ReplayBuffer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -52,10 +52,10 @@ class Maddpg():
     def step(self, states, actions, rewards, next_states, dones, num_current_episode):
         """ Save experience in replay memory, and use random sample from buffer to learn"""
  
-        self.memory.add(encode(states), 
-                        encode(actions), 
+        self.memory.add(contract(states), 
+                        contract(actions), 
                         rewards,
-                        encode(next_states),
+                        contract(next_states),
                         dones)
 
         # If enough samples in the replay memory and if it is time to update
@@ -64,19 +64,15 @@ class Maddpg():
             # Note: Expects 2 agents
             assert(len(self.agents)==2)
             
-            # Allow to learn several time in a row in the same episode
+            # Learn several times in an episode
             for i in range(MULTIPLE_LEARN_PER_UPDATE):
-                # Sample a batch of experience from the replay buffer 
                 experiences = self.memory.sample()   
-                # Update Agent 0
-                self.maddpg_learn(experiences, own_idx=0, other_idx=1)
-                # Sample another batch of experience from the replay buffer 
+                self.maddpg_learn(experiences, self_idx=0, other_idx=1)
                 experiences = self.memory.sample()   
-                # Update Agent 1
-                self.maddpg_learn(experiences, own_idx=1, other_idx=0)
+                self.maddpg_learn(experiences, self_idx=1, other_idx=0)
                 
     
-    def maddpg_learn(self, experiences, own_idx, other_idx, gamma=GAMMA):
+    def maddpg_learn(self, experiences, self_idx, other_idx, gamma=GAMMA):
         """
         Update the policy of the MADDPG "own" agent. The actors have only access to agent own 
         information, whereas the critics have access to all agents information.
@@ -89,34 +85,31 @@ class Maddpg():
         Params
         ======
             experiences (Tuple[torch.Tensor]): tuple of (s, a, r, s', done) tuples 
-            own_idx (int) : index of the own agent to update in self.agents
+            self_idx (int) : index of the own agent to update in self.agents
             other_idx (int) : index of the other agent to update in self.agents
             gamma (float): discount factor
         """
         
         states, actions, rewards, next_states, dones = experiences
                
-        # Filter out agent's OWN states, actions and next_states batch
-        own_states =  decode(self.state_size, self.num_agents, own_idx, states)
-        own_actions = decode(self.action_size, self.num_agents, own_idx, actions)
-        own_next_states = decode(self.state_size, self.num_agents, own_idx, next_states) 
+        self_states =  retract(self.state_size, self.num_agents, self_idx, states)
+        self_actions = retract(self.action_size, self.num_agents, self_idx, actions)
+        self_next_states = retract(self.state_size, self.num_agents, self_idx, next_states) 
                 
-        # Filter out OTHER agent states, actions and next_states batch
-        other_states =  decode(self.state_size, self.num_agents, other_idx, states)
-        other_actions = decode(self.action_size, self.num_agents, other_idx, actions)
-        other_next_states = decode(self.state_size, self.num_agents, other_idx, next_states)
+        other_states =  retract(self.state_size, self.num_agents, other_idx, states)
+        other_actions = retract(self.action_size, self.num_agents, other_idx, actions)
+        other_next_states = retract(self.state_size, self.num_agents, other_idx, next_states)
         
-        # Concatenate both agent information (own agent first, other agent in second position)
-        all_states=torch.cat((own_states, other_states), dim=1).to(device)
-        all_actions=torch.cat((own_actions, other_actions), dim=1).to(device)
-        all_next_states=torch.cat((own_next_states, other_next_states), dim=1).to(device)
+        all_states=torch.cat((self_states, other_states), dim=1).to(device)
+        all_actions=torch.cat((self_actions, other_actions), dim=1).to(device)
+        all_next_states=torch.cat((self_next_states, other_next_states), dim=1).to(device)
    
-        agent = self.agents[own_idx]
+        agent = self.agents[self_idx]
             
         # ---------------------------- update critic ---------------------------- #
         
         # Get predicted next-state actions and Q values from target models        
-        all_next_actions = torch.cat((agent.actor_target(own_states), agent.actor_target(other_states)),
+        all_next_actions = torch.cat((agent.actor_target(self_states), agent.actor_target(other_states)),
                                      dim =1).to(device) 
         Q_targets_next = agent.critic_target(all_next_states, all_next_actions)
         
@@ -137,7 +130,7 @@ class Maddpg():
 
         # ---------------------------- update actor ---------------------------- #
         # Compute actor loss
-        all_actions_pred = torch.cat((agent.actor_local(own_states), agent.actor_local(other_states).detach()),
+        all_actions_pred = torch.cat((agent.actor_local(self_states), agent.actor_local(other_states).detach()),
                                      dim = 1).to(device)      
         actor_loss = -agent.critic_local(all_states, all_actions_pred).mean()
         
