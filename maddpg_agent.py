@@ -147,10 +147,10 @@ class Maddpg():
     def checkpoints(self):
         """Save checkpoints for all Agents"""
         for idx, agent in enumerate(self.agents):
-            actor_local_filename = 'model_dir/checkpoint_actor_local_' + str(idx) + '.pth'
-            critic_local_filename = 'model_dir/checkpoint_critic_local_' + str(idx) + '.pth'           
-            actor_target_filename = 'model_dir/checkpoint_actor_target_' + str(idx) + '.pth'
-            critic_target_filename = 'model_dir/checkpoint_critic_target_' + str(idx) + '.pth'            
+            actor_local_filename = 'model/actor_local_' + str(idx) + '.pth'
+            critic_local_filename = 'model/critic_local_' + str(idx) + '.pth'           
+            actor_target_filename = 'model/actor_target_' + str(idx) + '.pth'
+            critic_target_filename = 'model/critic_target_' + str(idx) + '.pth'            
             torch.save(agent.actor_local.state_dict(), actor_local_filename) 
             torch.save(agent.critic_local.state_dict(), critic_local_filename)             
             torch.save(agent.actor_target.state_dict(), actor_target_filename) 

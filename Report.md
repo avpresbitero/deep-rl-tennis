@@ -85,7 +85,7 @@ MULTIPLE_LEARN_PER_UPDATE = 3      # Number of multiple learning process perform
 EPSILON = 1.0                      # exploration actions space
 EPSILON_DECAY = 1e-6               # epsilon decay
 
-LR_ACTOR = 1e-3                    # learning rate of the actor 
+LR_ACTOR = 1e-4                    # learning rate of the actor 
 LR_CRITIC = 1e-3                   # learning rate of the critic
 WEIGHT_DECAY = 0                   # L2 weight decay
 ACTOR_FC1_UNITS = 512              # Number of units for the layer 1 in the actor model
@@ -120,11 +120,11 @@ Given the chosen architecture and parameters indicated above, the model converge
 
 ![Training results](images/mmpg_result.jpg)
 
-The current results meet the project's expectation as the agent is able to receive an average reward (over 100 episodes) of at least +0.5 in 2928 episodes
+The current results meet the project's expectation as the agent is able to receive an average reward (over 100 episodes) of at least +0.5 in 3338 episodes
 
 ## Conclusions and Recommendations
 
-While the current implementation of the algorithm achieves the project's goal, I still find the learning a bit unstable. Hyperparameter tuning should be explored. Moresp, I ran the simulation on my laptop with no GPU. 
+While the current implementation of the algorithm achieves the project's goal, I still find the learning a bit unstable as seen in the dip in the plot previously. Hyperparameter tuning should be explored. I ran the simulation on my laptop (with no GPU). 
 
 The **Twin Delayed DDPG (TD3)** alorithm might be a good improvement to the Multi Agents environments according to [OpenAI](https://openai.com/)'s [Spinning Up](https://spinningup.openai.com/en/latest/index.html).
 

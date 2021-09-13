@@ -49,4 +49,3 @@ def retract(size, num_agents, id_agent, sa, debug=False):
         print("\nDebug decode:\n size=",size, " num_agents=", num_agents, " id_agent=", id_agent, "\n")
         print("input:\n", sa,"\n output:\n",out,"\n\n\n")
     return out
-

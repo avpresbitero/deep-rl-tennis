@@ -5,7 +5,7 @@ SEED = 1226                        # Random seed
 EPISODES = 10000                   # Max number of episodes
 STEPS = 1000                       # Max number of steps per episodes 
 BUFFER_SIZE = int(1e6)             # replay buffer size
-BATCH_SIZE = 200                   # minibatch size
+BATCH_SIZE = 250                   # minibatch size
 UPDATE_EVERY_NB_EPISODE = 4        # Number of episodes between learning process
 MULTIPLE_LEARN_PER_UPDATE = 3      # Number of multiple learning process performed in a row
 EPSILON = 1.0                      # exploration actions space
@@ -19,7 +19,7 @@ ACTOR_FC2_UNITS = 512              # Number of units for the layer 2 in the acto
 CRITIC_FCS1_UNITS = 512            # Number of units for the layer 1 in the critic model
 CRITIC_FC2_UNITS = 512             # Number of units for the layer 2 in the critic model
 
-GAMMA = 0.995                      # Discount factor
+GAMMA = 0.99                       # Discount factor
 TAU = 1e-3                         # For soft update of target parameters
 CLIP_CRITIC_GRADIENT = False       # Clip gradient during Critic optimization
 
