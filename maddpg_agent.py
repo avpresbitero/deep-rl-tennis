@@ -74,8 +74,8 @@ class Maddpg():
     
     def maddpg_learn(self, experiences, self_idx, other_idx, gamma=GAMMA):
         """
-        Update the policy of the MADDPG "own" agent. The actors have only access to agent own 
-        information, whereas the critics have access to all agents information.
+        Update the policy of the MADDPG agent. The actors have only access to agent's own 
+        information, whereas the critics have access to all the agents information.
         
         Update policy and value parameters using given batch of experience tuples.
         Q_targets = r + γ * critic_target(next_state, actor_target(next_state))
