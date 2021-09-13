@@ -7,11 +7,8 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def contract(sa):
     """
-    Takes in environment state or action list of array, which contain multiple agents action/state information, 
+    Takes in environment state or action list of array, which contains multiple agents action/state information, 
     by concatenating their information, thus removing (but not loosing) the agent dimension in the final output. 
-    
-    Output is a list intended to be inserted into a buffer memmory originally not designed to handle multiple 
-    agents information, such as in the context of MADDPG)
     
     Params
     ======       
@@ -25,11 +22,8 @@ def contract(sa):
 def retract(size, num_agents, id_agent, sa, debug=False):
     """
     Reads a batch of Environment states or actions, which have been previously concatened to store 
-    multiple agent information into a buffer memmory originally not designed to handle multiple 
+    multiple agent information into a buffer memory, which is originally not designed to handle multiple 
     agents information(such as in the context of MADDPG)
-    
-    This returns a batch of Environment states or actions (torch.tensor) containing the data 
-    of only the agent specified.
     
     Params
     ======
